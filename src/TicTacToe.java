@@ -4,18 +4,97 @@ public class TicTacToe {
     private static final int ROWS = 3;
     private static final int COLS = 3;
     private static String board [][] = new String[ROWS][COLS];
-    private static void clearBoard() =
-    private static void display() =
-    private static boolean isValidMove(int row, int col) =
-    private static boolean isWin(String player) =
-    private static boolean isColWin(String player) =
-    private static boolean isRowWin(String player) =
-    private static boolean isDiagonalWin(String player) =
-    private static boolean isTie() =
+    private static void clearBoard() {
+        for(int rows = 0; rows < ROWS; rows++) {
+
+            for(int col = 0; col < COLS;col++ ){
+
+                board[rows][col] = " ";
+
+            }
+
+        }
+    }
+    private static void display() {
+        for(int rows = 0; rows < ROWS; rows++) {
+            System.out.print("| ");
+            for(int col = 0; col < COLS;col++ ){
+
+                System.out.print(board[rows][col] + " |");
+
+            }
+            System.out.println();
+
+        }
+    }
+    private static boolean isValidMove(int row, int col){
+        Boolean empty = false;
+        if(board[row][col].equals(" ")){
+            empty = false;
+        }else{
+            empty = true;
+        }
+        return empty;
+    }
+    private static boolean isWin(String player){
+        System.out.println("Wow, looks like " + player + " wins!");
+        return true;
+    }
+    private static boolean isColWin(String player){
+        boolean win;
+        if(board[0][0].equals(player) && board[1][0].equals(player) && board[2][0].equals(player)){
+            win = true;
+        }else if(board[0][1].equals(player) && board[1][1].equals(player) && board[2][1].equals(player)){
+            win = true;
+        }else if(board[0][2].equals(player) && board[1][2].equals(player) && board[2][2].equals(player)){
+            win = true;
+        }else{
+            win = false;
+        }
+        return win;
+    }
+    private static boolean isRowWin(String player){
+        boolean win;
+        if(board[0][0].equals(player) && board[0][1].equals(player) && board[0][2].equals(player)){
+            win = true;
+        }else if(board[1][0].equals(player) && board[1][1].equals(player) && board[1][2].equals(player)){
+            win = true;
+        }else if(board[2][0].equals(player) && board[2][1].equals(player) && board[2][2].equals(player)){
+            win = true;
+        }else{
+            win = false;
+        }
+        return win;
+    }
+    private static boolean isDiagonalWin(String player) {
+        boolean win;
+        if(board[0][0].equals(player) && board[1][1].equals(player) && board[2][2].equals(player)){
+            win = true;
+        }else if(board[0][2].equals(player) && board[1][1].equals(player) && board[2][0].equals(player)){
+            win = true;
+        }else{
+            win = false;
+        }
+        return win;
+    }
+    private static boolean isTie(){
+        for(int rows = 0; rows < ROWS; rows++) {
+
+            for(int col = 0; col < COLS;col++ ){
+
+                if(board[rows][col].equals(" ")){
+                    return false;
+                }
+
+            }
+
+        }
+        return true;
+    }
     static void main() {
 
-        int rowmove;
-        int colmove;
+        int playerpickrow;
+        int playerpickcol;
 
 
         //Create do while loop for whether or not to keep playing
