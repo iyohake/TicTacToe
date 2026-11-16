@@ -30,15 +30,14 @@ public class TicTacToe {
     private static boolean isValidMove(int row, int col){
         Boolean empty = false;
         if(board[row][col].equals(" ")){
-            empty = false;
-        }else{
             empty = true;
+        }else{
+            empty = false;
         }
         return empty;
     }
     private static boolean isWin(String player){
-        System.out.println("Wow, looks like " + player + " wins!");
-        return true;
+        return isDiagonalWin(player) || isRowWin(player) || isColWin(player);
     }
     private static boolean isColWin(String player){
         boolean win;
@@ -91,13 +90,74 @@ public class TicTacToe {
         }
         return true;
     }
-    static void main() {
+    public static void main(String[] args) {
 
         int playerpickrow;
         int playerpickcol;
+        boolean playagain = true;
+        boolean valid = false;
+        boolean done = false;
+        Scanner pipe = new Scanner(System.in);
+        int counter = 0;
 
 
         //Create do while loop for whether or not to keep playing
+        do{
+            clearBoard();
+            done = false;
+            counter = 0;
+            do {
+                do {
+                    System.out.println("Ok, player 1 go. We'll use 'x' for your inputs.");
+                    display();
+
+
+                    playerpickrow = SafeInput.getRangedInt(pipe, "Gimme a number from 0-2, from top to down, to pick your row.", 0, 2);
+                    playerpickcol = SafeInput.getRangedInt(pipe, "Gimme a number from 0-2, from top to down, to pick your column.", 0, 2);
+                    valid = isValidMove(playerpickrow, playerpickcol);
+                    if (!valid) {
+                        System.out.println("This spot's taken. Do another one.");
+                    }
+                } while (!valid);
+                counter = counter + 1;
+                board[playerpickrow][playerpickcol] = "x";
+                done = isWin("x") || isTie();
+
+                if(done){
+                    display();
+                    if(isWin("x")){
+                        System.out.println("Player 1 wins!");
+                    }else{
+                        System.out.println("It's a tie...");
+                    }
+                    break;
+                }
+                do {
+                    System.out.println("Ok, player 2 go. We'll use 'o' for your inputs.");
+                    display();
+
+                    playerpickrow = SafeInput.getRangedInt(pipe, "Gimme a number from 0-2, from top to down, to pick your row.", 0, 2);
+                    playerpickcol = SafeInput.getRangedInt(pipe, "Gimme a number from 0-2, from top to down, to pick your column.", 0, 2);
+                    valid = isValidMove(playerpickrow, playerpickcol);
+                    if (!valid) {
+                        System.out.println("This spot's taken. Do another one.");
+                    }
+                }while (!valid);
+                    counter = counter + 1;
+                    board[playerpickrow][playerpickcol] = "o";
+                    done = isWin("o") || isTie();
+                    if(done) {
+                        display();
+                        if (isWin("o")) {
+                            System.out.println("Player 2 wins!");
+                        } else {
+                            System.out.println("It's a tie...");
+                        }
+                    }
+            }while(!done);
+            System.out.println("The game ended with " + counter + " turns played!");
+            playagain = SafeInput.getYNConfirm(pipe, "Wanna play again? (y/n)");
+        }while(playagain);
         //Clear board, set player to 1 or X
         //Create loop running until valid input is taken, checking if spot is already occupied
         //Collect player one's input, row and column number
